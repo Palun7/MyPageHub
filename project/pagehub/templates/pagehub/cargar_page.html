@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords">
+    <meta name="description">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>
+        Cargar Page
+    </title>
+</head>
+<body>
+    <nav class="navbar">
+        {% include 'core/components/navbar.html' %}
+    </nav>
+    <main class="contenedor-main">
+        <h1>Carga de Page</h1>
+        <section class="form-pagehub" id="form_pagehub">
+            <form id="pagehub-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <select name="categoria" id="categoria">
+                    <option value="">Categoría</option>
+                </select>
+                <select name="sub_categoria" id="sub_categoria">
+                    <option value="">Sub Categoría</option>
+                </select>
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="text" name="link" placeholder="Link" required>
+                <input type="file" name="foto">
+                <textarea name="descripcion" id="descripcion" placeholder="Descripción"></textarea>
+                <button type="submit">Cargar</button>
+            </form>
+        </section>
+
+    </main>
+    <footer class="footer">
+        {% include 'core/components/footer.html' %}
+    </footer>
+
+    <script src="{% static 'pagehub/scripts/cargar_page.js' %}"></script>
+</body>
+</html>

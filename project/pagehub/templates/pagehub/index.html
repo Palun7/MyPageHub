@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords">
+    <meta name="description">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>
+        PageHub
+    </title>
+</head>
+<body>
+    <nav class="navbar">
+        {% include 'core/components/navbar.html' %}
+    </nav>
+    <main class="contenedor-main">
+        <h1>Mi Hub de Pages</h1>
+        <a href="{% url 'pagehub:cargar_page' %}">Cargar Page</a>
+    </main>
+    <footer class="footer">
+        {% include 'core/components/footer.html' %}
+    </footer>
+
+    <script src="{% static 'pagehub/script/index.js' %}"></script>
+</body>
+</html>
