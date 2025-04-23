@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords">
     <meta name="description">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>
         Cargar Page
@@ -16,21 +17,27 @@
         {% include 'core/components/navbar.html' %}
     </nav>
     <main class="contenedor-main">
-        <h1>Carga de Page</h1>
-        <section class="form-pagehub" id="form_pagehub">
-            <form id="pagehub-form" enctype="multipart/form-data">
+        <h1>Cargar Page</h1>
+        <section class="pagehub-form-container" id="form_pagehub">
+            <form id="pagehub_form" class="pagehub-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <select name="categoria" id="categoria">
-                    <option value="">Categoría</option>
+                    <option class="option">Categoría</option>
                 </select>
-                <select name="sub_categoria" id="sub_categoria">
-                    <option value="">Sub Categoría</option>
-                </select>
+                <div class="cargar-sub-container">
+                    <select name="sub_categoria" id="sub_categoria">
+                        <option class="option">Sub Categoría</option>
+                    </select>
+                    <a href="{% url 'pagehub:cargar_sub_categoria' %}" class="boton-basico decoracion">Cargar Sub-categoría</a>
+                </div>
                 <input type="text" name="nombre" placeholder="Nombre" required>
                 <input type="text" name="link" placeholder="Link" required>
-                <input type="file" name="foto">
+                <section class="foto-page">
+                    <p>Foto relacionada:</p>
+                    <input type="file" name="foto">
+                </section>
                 <textarea name="descripcion" id="descripcion" placeholder="Descripción"></textarea>
-                <button type="submit">Cargar</button>
+                <button type="submit" class="boton-basico">Cargar</button>
             </form>
         </section>
 
@@ -39,6 +46,7 @@
         {% include 'core/components/footer.html' %}
     </footer>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{% static 'pagehub/scripts/cargar_page.js' %}"></script>
 </body>
 </html>

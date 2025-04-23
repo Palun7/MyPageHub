@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error("Error cargando datos:", error));
 });
 
-document.getElementById('pagehub-form').addEventListener('submit', async (e) => {
+document.getElementById('pagehub_form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -48,10 +48,29 @@ document.getElementById('pagehub-form').addEventListener('submit', async (e) => 
         if (!response.ok) throw new Error(`Error: ${response.status}`);
 
         const data = await response.json();
-        alert(data.message);
-        e.target.reset();  // Limpia el formulario después de cargar
+        Toastify({
+            text: `${data.success}`,
+            duration: 2000,
+            gravity: 'top',
+            position: 'center',
+            style: {
+                background: "rgb(75, 222, 255)",
+                color: "rgb(0,0,0)"
+            },
+        }).showToast();
+        setTimeout(() => {
+            window.location.href = '/pagehub/';
+        }, 2000);
     } catch (error) {
-        console.error("Error al enviar:", error);
-        alert("Hubo un error al cargar la página.");
+        Toastify({
+            text: `${data.error}`,
+            duration: 2000,
+            gravity: 'top',
+            position: 'center',
+            style: {
+                background: "linear-gradient(to right,rgb(255, 0, 0),rgb(251, 66, 66))",
+                color: "rgb(221,221,221)",
+            },
+        }).showToast();
     }
 });

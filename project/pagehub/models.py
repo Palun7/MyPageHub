@@ -13,14 +13,14 @@ class SubCategoria(models.Model):
 class PageHub(models.Model):
     class CategoriaPrincipal(models.TextChoices):
         ROPA = 'Ropa'
-        HOGAR_DECO = 'Hogar/Deco'
+        HOGAR_DECO = 'Hogar-Deco'
         ACCESORIOS = 'Accesorios'
         RECETAS = 'Recetas'
-        TECNOLOGIA = 'Tecnología'
+        TECNOLOGIA = 'Tecnologia'
         LIBROS = 'Libros'
         PLANTAS = 'Plantas'
-        FOTOGRAFIA = 'Fotografía'
-        ACADEMICO = 'Académico'
+        FOTOGRAFIA = 'Fotografia'
+        ACADEMICO = 'Academico'
 
     categoria_principal = models.CharField(max_length=20, choices=CategoriaPrincipal.choices)
     sub_categoria = models.ManyToManyField(SubCategoria)

@@ -4,7 +4,7 @@
         <a href="{% url 'pagehub:index' %}">Pagehub</a>
         <form action="{% url 'usuarios:logout' %}" method="post">
             {% csrf_token %}
-            <button type="submit">Cerrar sesión</button>
+            <button type="submit" class="boton-rojo">Cerrar sesión</button>
         </form>
     {% else %}
         <a href="{% url 'core:index' %}">Inicio</a>

@@ -6,12 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords">
     <meta name="description">
-    {% block toastify %}
-    {% endblock toastify %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>
-        {% block title %}
-        {% endblock title %}
+        PageHub
     </title>
 </head>
 <body>
@@ -19,14 +16,18 @@
         {% include 'core/components/navbar.html' %}
     </nav>
     <main class="contenedor-main">
-        {% block content %}
-        {% endblock content %}
+        <h1>Páginas en la categoría {{ categoria }}</h1>
+        <ul>
+            {% for page in pages %}
+                <li><a href="{{ page.link }}">{{ page.nombre }}</a></li>
+            {% empty %}
+                <li>No hay páginas en esta categoría aún.</li>
+            {% endfor %}
+        </ul>
+        <a href="../../" class="boton-rojo">Atrás</a>
     </main>
     <footer class="footer">
         {% include 'core/components/footer.html' %}
     </footer>
-
-    {% block script %}
-    {% endblock script %}
 </body>
 </html>
