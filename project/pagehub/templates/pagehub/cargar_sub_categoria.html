@@ -21,6 +21,9 @@
         <section class="pagehub-form-container" id="form_sub_categoria">
             <form id="sub_categoria_form" class="pagehub-form">
                 {% csrf_token %}
+                <select name="categoria" id="categoria_principal">
+                    <option class="option">Categoría</option>
+                </select>
                 <input type="text" name="sub_categoria" placeholder="Sub Categoría" required>
                 <button type="submit" class="boton-basico">Cargar</button>
             </form>

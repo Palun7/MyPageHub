@@ -2,12 +2,16 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
 from .models import PageHub, SubCategoria
-
+from django.conf import settings
 
 
 def categoria_view(request, categoria):
-    pages = PageHub.objects.filter(categoria_principal=categoria)
-    return render(request, 'pagehub/categoria.html', {'pages': pages, 'categoria': categoria})
+    pages = PageHub.objects.filter(categoria_principal=categoria).values('sub_categoria', 'id', 'nombre', 'link', 'foto', 'descripcion')
+    return render(request, 'pagehub/categoria.html', {
+        'pages': pages,
+        'categoria': categoria,
+        'MEDIA_URL': settings.MEDIA_URL
+    })
 
 class index(View):
     def get(self, request):
@@ -31,17 +35,17 @@ class PageHubView(View):
             link = request.POST.get('link')
             categoria_principal = request.POST.get('categoria')
             descripcion = request.POST.get('descripcion')
-            sub_categorias_ids = request.POST.getlist('sub_categoria')
+            sub_categoria = request.POST.get('sub_categoria')
             foto = request.FILES.get('foto')
 
-            pagehub = PageHub.objects.create(
+            PageHub.objects.create(
                 nombre=nombre,
                 link=link,
                 categoria_principal=categoria_principal,
                 descripcion=descripcion,
-                foto=foto
+                foto=foto,
+                sub_categoria=sub_categoria,
             )
-            pagehub.sub_categoria.set(sub_categorias_ids)
 
             return JsonResponse({'success': 'PageHub creada con éxito'})
 
@@ -50,20 +54,34 @@ class PageHubView(View):
 
 class Cargar_Sub(View):
     def get(self, request):
-        return render(request, 'pagehub/cargar_sub_categoria.html')
+        categorias = SubCategoria.CategoriaPrincipal.choices
+        print(categorias)
+        return render(request, 'pagehub/cargar_sub_categoria.html', {'categoria': categorias})
 
     def post(self, request):
         try:
+            categoria_principal = request.POST.get('categoria')
             sub_categoria = request.POST.get('sub_categoria')
+
+            print(categoria_principal, sub_categoria)
+
+            if not categoria_principal or not sub_categoria:
+                return JsonResponse({'error': 'Los campos no pueden estar vacíos'}, status=400)
 
             if SubCategoria.objects.filter(sub_categoria=sub_categoria).exists():
                 return JsonResponse({'error': 'La Sub_categoría ya existe'}, status=400)
 
             SubCategoria.objects.create(
+                categoria_principal=categoria_principal,
                 sub_categoria=sub_categoria,
             )
 
-            return JsonResponse({'success': 'Sub_categoría creada con éxito'})
+            return JsonResponse({'success': 'Sub-categoría creada con éxito'})
 
         except Exception as e:
             return JsonResponse({'error': 'Error al crear la subcategoría'}, status=400)
+
+def obtener_subcategorias(request, categoria_nombre):
+    subcategorias = SubCategoria.objects.filter(categoria_principal=categoria_nombre)
+    data = [{'id': sc.id, 'nombre': sc.sub_categoria} for sc in subcategorias]
+    return JsonResponse(data, safe=False)

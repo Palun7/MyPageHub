@@ -31,7 +31,7 @@
                     <a href="{% url 'pagehub:cargar_sub_categoria' %}" class="boton-basico decoracion">Cargar Sub-categoría</a>
                 </div>
                 <input type="text" name="nombre" placeholder="Nombre" required>
-                <input type="text" name="link" placeholder="Link" required>
+                <input type="url" name="link" pattern="https://.*" placeholder="https://ejemplo.com" title="El enlace debe comenzar con https://">
                 <section class="foto-page">
                     <p>Foto relacionada:</p>
                     <input type="file" name="foto">
@@ -40,7 +40,9 @@
                 <button type="submit" class="boton-basico">Cargar</button>
             </form>
         </section>
-
+        <div class="atras">
+            <a href="../" class="boton-basico">Atras</a>
+        </div>
     </main>
     <footer class="footer">
         {% include 'core/components/footer.html' %}

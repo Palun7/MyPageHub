@@ -31,7 +31,7 @@ document.getElementById('sub_categoria_form').addEventListener('submit', async (
         }, 2000);
     } catch (error) {
         Toastify({
-            text: `${data.error}`,
+            text: `Hubo un error al cargar.`,
             duration: 2000,
             gravity: 'top',
             position: 'center',
@@ -41,4 +41,28 @@ document.getElementById('sub_categoria_form').addEventListener('submit', async (
             },
         }).showToast();
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/pagehub/cargar_page/?json=true')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const categoriaSelect = document.getElementById('categoria_principal');
+
+            // Cargar categorías
+            data.categorias.forEach(categoria => {
+                const option = document.createElement('option');
+                option.value = categoria[0];
+                option.textContent = categoria[1];
+                categoriaSelect.appendChild(option);
+                console.log(categoria[0], categoria[1]);
+            });
+
+        })
+        .catch(error => console.error("Error cargando datos:", error));
 });

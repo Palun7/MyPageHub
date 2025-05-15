@@ -173,6 +173,8 @@ body {
     background-color: white;
     transition-duration: .5s;
     width: 150px;
+    text-decoration: none;
+    color: black;
 }
 
 .decoracion {
@@ -198,6 +200,8 @@ body {
     border-radius: 5px;
     background-color: rgb(255, 178, 178);
     transition-duration: .5s;
+    text-decoration: none;
+    color: black;
 }
 
 .boton-rojo:hover {
@@ -224,16 +228,17 @@ body {
 
 .categoria {
     letter-spacing: 1px;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bold;
+    text-align: center;
     margin: 3vh 0;
     display: flex;
     flex-direction: column;
     gap: 5px;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     background-color: rgb(250, 248, 255);
     padding: 5px;
     border-radius: 5px;
@@ -248,7 +253,7 @@ body {
 }
 
 .categoria-imagen {
-    width: 40px;
+    width: 30px;
 }
 
 .cargar-sub-container {
@@ -261,4 +266,64 @@ body {
         left: 0;
         align-items: center;
     }
+}
+
+.atras {
+    position: absolute;
+    bottom: 10vh;
+    right: 10vw;
+    @media screen and (max-width: 600px) {
+        position: fixed;
+        right: 15px;
+        bottom: 15px;
+    }
+}
+
+.pages-contenedor {
+    width: 90%;
+}
+
+.pages {
+    margin-top: 5vh;
+    width: 90%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    @media screen and (max-width: 600px) {
+        justify-content: center;
+    }
+}
+
+.pages li {
+    list-style: none;
+}
+
+.pages .page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px;
+    max-width: 250px;
+    min-height: 100px;
+    background-color: rgba(0, 0, 0, 0.284);
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+    transition-duration: .5s;
+    box-shadow: 0 0 5px transparent;
+    padding: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pages .page:hover {
+    background-color: rgb(75, 222, 255);
+    box-shadow: 2px 2px 5px black;
+}
+
+.foto-page-card {
+    width: 80px;
+    border-radius: 5px;
 }

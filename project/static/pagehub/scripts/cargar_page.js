@@ -74,3 +74,28 @@ document.getElementById('pagehub_form').addEventListener('submit', async (e) => 
         }).showToast();
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const categoriaSelect = document.getElementById("categoria");
+    const subCategoriaSelect = document.getElementById("sub_categoria");
+
+    categoriaSelect.addEventListener("change", function () {
+        const categoriaId = this.value;
+
+        // Vaciar subcategorías anteriores
+        subCategoriaSelect.innerHTML = '<option class="option">Sub Categoría</option>';
+
+        if (categoriaId) {
+            fetch(`/pagehub/subcategorias/${encodeURIComponent(categoriaId)}/`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(sub => {
+                        const option = document.createElement("option");
+                        option.value = sub.id;
+                        option.textContent = sub.nombre;
+                        subCategoriaSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+});

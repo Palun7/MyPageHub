@@ -16,15 +16,23 @@
         {% include 'core/components/navbar.html' %}
     </nav>
     <main class="contenedor-main">
-        <h1>Páginas en la categoría {{ categoria }}</h1>
-        <ul>
-            {% for page in pages %}
-                <li><a href="{{ page.link }}">{{ page.nombre }}</a></li>
-            {% empty %}
-                <li>No hay páginas en esta categoría aún.</li>
-            {% endfor %}
-        </ul>
-        <a href="../../" class="boton-rojo">Atrás</a>
+        <h1>Páginas en {{ categoria }}</h1>
+        <div class="pages-contenedor">
+            <ul class="pages">
+                {% for page in pages %}
+                    {% if  page.foto %}
+                    <li><a href="{{ page.link }}" target="_blank" class="page">{{ page.nombre }} <img src="{{ MEDIA_URL }}{{ page.foto }}" alt="{{ page.nombre }}" class="foto-page-card">{{ page.link }}<p>{{ page.descripcion }}</p></a></li>
+                    {% else %}
+                    <li><a href="{{ page.link }}" target="_blank" class="page"><p>{{ page.nombre }}</p><p>{{ page.link }}</p><p>{{ page.descripcion }}</p></a></li>
+                    {% endif %}
+                {% empty %}
+                    <li>No hay páginas en esta categoría aún.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="atras">
+            <a href="../../" class="boton-basico">Atrás</a>
+        </div>
     </main>
     <footer class="footer">
         {% include 'core/components/footer.html' %}
