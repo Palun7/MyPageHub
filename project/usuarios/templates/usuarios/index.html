@@ -16,8 +16,8 @@
     <nav class="navbar">
         {% include 'core/components/navbar.html' %}
     </nav>
-    <main class="contenedor-main">
-        <div class="login">
+    <main class="main-login">
+        <div class="login z-100 opacity-0" id="login">
             <h2>Inicio de Sesión</h2>
             <form id="login_form" class="login-form">
                 {% csrf_token %}
@@ -25,8 +25,9 @@
                 <input type="password" name="password" placeholder="Contraseña" required>
                 <button type="submit" class="boton-basico">Iniciar Sesión</button>
             </form>
+            <button class="boton-registrarse" id="registrarse"><strong>Registrarse →</strong></button>
         </div>
-        <div class="register">
+        <div class="register opacity-0 right500" id="registrar">
             <h2>Registrarse</h2>
             <form id="register_form" class="register-form">
                 {% csrf_token %}
@@ -37,11 +38,13 @@
                 <input type="text" name="apellido" placeholder="Apellido" required>
                 <input type="email" name="mail" placeholder="Mail" required>
                 <section class="carga-foto-perfil">
-                    <p>Foto de perfil</p>
-                    <input type="file" name="foto" id="foto_perfil">
+                    <label for="foto_perfil" class="boton-foto">Foto de perfil</p>
+                    <input type="file" name="foto" id="foto_perfil" class="selector-foto" onchange="mostrarPreview()">
+                    <img id="preview" src="" alt="" class="preview-foto">
                 </section>
                 <button type="submit" class="boton-basico">Registrarse</button>
             </form>
+            <button class="boton-login" id="iniciar_sesion">← Iniciar Sesion</button>
         </div>
     </main>
     <footer class="footer">

@@ -21,9 +21,12 @@
         <section class="pagehub-form-container" id="form_pagehub">
             <form id="pagehub_form" class="pagehub-form" enctype="multipart/form-data">
                 {% csrf_token %}
-                <select name="categoria" id="categoria">
-                    <option class="option">Categoría</option>
-                </select>
+                <div class="cargar-sub-container">
+                    <select name="categoria" id="categoria">
+                        <option class="option">Categoría</option>
+                    </select>
+                    <a href="{% url 'pagehub:cargar_categoria' %}" class="boton-basico decoracion">Cargar Categoría</a>
+                </div>
                 <div class="cargar-sub-container">
                     <select name="sub_categoria" id="sub_categoria">
                         <option class="option">Sub Categoría</option>

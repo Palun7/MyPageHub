@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords">
+    <meta name="description">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>
+        Cargar Categoría
+    </title>
+</head>
+<body>
+    <nav class="navbar">
+        {% include 'core/components/navbar.html' %}
+    </nav>
+    <main class="contenedor-main">
+        <h1>Cargar Categoría</h1>
+        <section class="pagehub-form-container" id="form_sub_categoria">
+            <form id="categoria_form" class="pagehub-form">
+                {% csrf_token %}
+                <input type="text" name="categoria" placeholder="Nombre" id="categoria" required>
+                <button type="submit" class="boton-basico">Cargar</button>
+            </form>
+        </section>
+
+    </main>
+    <footer class="footer">
+        {% include 'core/components/footer.html' %}
+    </footer>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{% static 'pagehub/scripts/cargar_categoria.js' %}"></script>
+</body>
+</html>

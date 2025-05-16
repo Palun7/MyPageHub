@@ -13,17 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cargar categorías
             data.categorias.forEach(categoria => {
                 const option = document.createElement('option');
-                option.value = categoria[0];
-                option.textContent = categoria[1];
+                option.value = categoria.id;
+                option.textContent = categoria.nombre;
                 categoriaSelect.appendChild(option);
-            });
-
-            // Cargar subcategorías
-            data.sub_categorias.forEach(subCategoria => {
-                const option = document.createElement('option');
-                option.value = subCategoria.id;
-                option.textContent = subCategoria.sub_categoria;
-                subCategoriaSelect.appendChild(option);
+                option.addEventListener('select', ()=> {
+                    // Cargar subcategorías
+                    data.sub_categorias.forEach(subCategoria => {
+                        const option = document.createElement('option');
+                        option.value = subCategoria.id;
+                        option.textContent = subCategoria.sub_categoria;
+                        subCategoriaSelect.appendChild(option);
+                    });
+                })
             });
 
         })

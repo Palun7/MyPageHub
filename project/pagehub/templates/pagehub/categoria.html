@@ -16,19 +16,27 @@
         {% include 'core/components/navbar.html' %}
     </nav>
     <main class="contenedor-main">
-        <h1>Páginas en {{ categoria }}</h1>
+        <h1>Pages en {{ categoria }}</h1>
         <div class="pages-contenedor">
-            <ul class="pages">
-                {% for page in pages %}
-                    {% if  page.foto %}
-                    <li><a href="{{ page.link }}" target="_blank" class="page">{{ page.nombre }} <img src="{{ MEDIA_URL }}{{ page.foto }}" alt="{{ page.nombre }}" class="foto-page-card">{{ page.link }}<p>{{ page.descripcion }}</p></a></li>
-                    {% else %}
-                    <li><a href="{{ page.link }}" target="_blank" class="page"><p>{{ page.nombre }}</p><p>{{ page.link }}</p><p>{{ page.descripcion }}</p></a></li>
-                    {% endif %}
-                {% empty %}
-                    <li>No hay páginas en esta categoría aún.</li>
-                {% endfor %}
-            </ul>
+            {% for sub, pages in pages_por_subcategoria.items %}
+                <div class="filtro-sub-categoria">
+                    <h3 class="titulo-sub-categoria">{{ sub }}</h3>
+                    <ul class="pages">
+                        {% for page in pages %}
+                            <li>
+                                <a href="{{ page.link }}" target="_blank" class="page">
+                                    <p>{{ page.nombre }}</p>
+                                    {% if page.foto %}
+                                        <img src="{{ MEDIA_URL }}{{ page.foto }}" alt="{{ page.nombre }}" class="foto-page-card">
+                                    {% endif %}
+                                    <p>{{ page.link }}</p>
+                                    <p>{{ page.descripcion }}</p>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
         </div>
         <div class="atras">
             <a href="../../" class="boton-basico">Atrás</a>

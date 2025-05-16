@@ -19,11 +19,15 @@
         <h1 class="hub-titulo">Mi Hub de Pages</h1>
         <a href="{% url 'pagehub:cargar_page' %}" class="boton-basico decoracion margin-bottom">Cargar Page</a>
         <div class="categorias-main">
-            <h2>Categorías</h2>
+            <h2 class="titulo-categorias">Categorías</h2>
             <div class="categorias-container">
-                {% for clave, nombre in categorias %}
-                    <a href="{% url 'pagehub:categoria' clave %}" class="categoria"><img src="{% static 'img/'|add:clave|add:'.png' %}" alt="{{ nombre }}" class="categoria-imagen">{{ nombre }}</a>
-                {% endfor %}
+                {% if categorias %}
+                    {% for categoria in categorias %}
+                        <a href="{% url 'pagehub:categoria' categoria.id %}" class="categoria">{{ categoria.nombre }}</a>
+                    {% endfor %}
+                {% else %}
+                    <h3 class="sin-categorias">Todavía no hay categorías cargadas</h3>
+                {% endif %}
             </div>
         </div>
     </main>

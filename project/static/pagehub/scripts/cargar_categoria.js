@@ -1,11 +1,11 @@
-document.getElementById('sub_categoria_form').addEventListener('submit', async (e) => {
+document.getElementById('categoria_form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
+    console.log(formData);
     try {
-        const response = await fetch('/pagehub/cargar_sub_categoria/', {
+        const response = await fetch('/pagehub/cargar_categoria/', {
             method: 'POST',
             headers: {
                 'X-CSRFToken': csrfToken
@@ -41,28 +41,4 @@ document.getElementById('sub_categoria_form').addEventListener('submit', async (
             },
         }).showToast();
     }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('/pagehub/cargar_page/?json=true')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const categoriaSelect = document.getElementById('categoria_principal');
-
-            // Cargar categorías
-            data.categorias.forEach(categoria => {
-                const option = document.createElement('option');
-                option.value = categoria.id;
-                option.textContent = categoria.nombre;
-                categoriaSelect.appendChild(option);
-                console.log(categoria.id, categoria.nombre);
-            });
-
-        })
-        .catch(error => console.error("Error cargando datos:", error));
 });
