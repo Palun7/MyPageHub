@@ -19,13 +19,16 @@
     <main class="contenedor-main">
         <h1>Cargar Categoría</h1>
         <section class="pagehub-form-container" id="form_sub_categoria">
-            <form id="categoria_form" class="pagehub-form">
+            <form id="categoria_form" class="pagehub-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="text" name="categoria" placeholder="Nombre" id="categoria" required>
+                <input type="file" name="foto" id="foto_categoria">
                 <button type="submit" class="boton-basico">Cargar</button>
             </form>
         </section>
-
+        <div class="atras">
+            <a href="{% url 'pagehub:cargar_page' %}" class="boton-basico">Atrás</a>
+        </div>
     </main>
     <footer class="footer">
         {% include 'core/components/footer.html' %}

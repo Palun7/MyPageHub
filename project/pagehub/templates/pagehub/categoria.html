@@ -16,22 +16,43 @@
         {% include 'core/components/navbar.html' %}
     </nav>
     <main class="contenedor-main">
-        <h1>Pages en {{ categoria }}</h1>
+        <div class="titulo-categoria">
+            <h1>Pages en {{ categoria }}</h1>
+            {% if categoria_foto %}
+                <img src="{{ MEDIA_URL }}{{ categoria_foto }}" alt="Foto de {{ categoria }}" class="foto-categoria-titulo">
+            {% endif %}
+        </div>
         <div class="pages-contenedor">
-            {% for sub, pages in pages_por_subcategoria.items %}
+            {% for sub_nombre, datos in pages_por_subcategoria.items %}
                 <div class="filtro-sub-categoria">
-                    <h3 class="titulo-sub-categoria">{{ sub }}</h3>
+                    <div class="titulo-sub-categoria-contenedor">
+                        <h3 class="titulo-sub-categoria">{{ sub_nombre }}</h3>
+                        {% if datos.foto %}
+                            <img src="{{ datos.foto }}" alt="Foto de {{ sub_nombre }}" class="foto-sub-categoria">
+                        {% endif %}
+                    </div>
                     <ul class="pages">
-                        {% for page in pages %}
+                        {% for page in datos.pages %}
                             <li>
-                                <a href="{{ page.link }}" target="_blank" class="page">
-                                    <p>{{ page.nombre }}</p>
-                                    {% if page.foto %}
-                                        <img src="{{ MEDIA_URL }}{{ page.foto }}" alt="{{ page.nombre }}" class="foto-page-card">
-                                    {% endif %}
-                                    <p>{{ page.link }}</p>
-                                    <p>{{ page.descripcion }}</p>
-                                </a>
+                                {% if page.link %}
+                                    <a href="{{ page.link }}" target="_blank" class="page">
+                                        <p>{{ page.nombre }}</p>
+                                        {% if page.foto %}
+                                            <img src="{{ MEDIA_URL }}{{ page.foto }}" alt="{{ page.nombre }}" class="foto-page-card">
+                                        {% endif %}
+                                        <p>{{ page.link }}</p>
+                                        <p>{{ page.descripcion }}</p>
+                                    </a>
+                                {% else %}
+                                    <a href="" class="page">
+                                        <p>{{ page.nombre }}</p>
+                                        {% if page.foto %}
+                                            <img src="{{ MEDIA_URL }}{{ page.foto }}" alt="{{ page.nombre }}" class="foto-page-card">
+                                        {% endif %}
+                                        <p>{{ page.link }}</p>
+                                        <p>{{ page.descripcion }}</p>
+                                    </a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
@@ -45,5 +66,8 @@
     <footer class="footer">
         {% include 'core/components/footer.html' %}
     </footer>
+
+
+    <script src="{% static 'pagehub/scripts/categoria.js' %}"></script>
 </body>
 </html>

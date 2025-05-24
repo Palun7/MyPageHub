@@ -4,28 +4,41 @@ from django.views import View
 from .models import PageHub, SubCategoria, CategoriaPrincipal
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from collections import defaultdict
 
 
 def categoria_view(request, categoria_id):
     categoria_obj = get_object_or_404(CategoriaPrincipal, id=categoria_id)
     pages_qs = PageHub.objects.filter(categoria_principal=categoria_obj)
 
-    pages_por_subcategoria = defaultdict(list)
+    pages_por_subcategoria = {}
+
     for page in pages_qs:
-        sub = page.sub_categoria.sub_categoria if page.sub_categoria else "Sin subcategoría"
-        pages_por_subcategoria[sub].append(page)
+        if page.sub_categoria:
+            sub_nombre = page.sub_categoria.sub_categoria
+            sub_foto = page.sub_categoria.foto.url if page.sub_categoria.foto else None
+        else:
+            sub_nombre = "Sin subcategoría"
+            sub_foto = None
+
+        if sub_nombre not in pages_por_subcategoria:
+            pages_por_subcategoria[sub_nombre] = {
+                'foto': sub_foto,
+                'pages': []
+            }
+
+        pages_por_subcategoria[sub_nombre]['pages'].append(page)
 
     return render(request, 'pagehub/categoria.html', {
-        'pages_por_subcategoria': dict(pages_por_subcategoria),
+        'pages_por_subcategoria': pages_por_subcategoria,
         'categoria': categoria_obj.nombre,
+        'categoria_foto': categoria_obj.foto,
         'MEDIA_URL': settings.MEDIA_URL
     })
 
 class index(View):
     def get(self, request):
-        categorias = CategoriaPrincipal.objects.filter(user=request.user).values('id', 'nombre')
-        return render(request, 'pagehub/index.html', {'categorias': categorias})
+        categorias = CategoriaPrincipal.objects.filter(user=request.user).values('id', 'nombre', 'foto')
+        return render(request, 'pagehub/index.html', {'categorias': categorias, 'MEDIA_URL': settings.MEDIA_URL})
 
 class PageHubView(View):
     def get(self, request):
@@ -34,7 +47,7 @@ class PageHubView(View):
             sub_categorias = list(SubCategoria.objects.all().values('id', 'sub_categoria'))
             return JsonResponse({
                 'categorias': categorias,
-                'sub_categorias': list(sub_categorias),
+                'sub_categorias': sub_categorias,
             })
         return render(request, 'pagehub/cargar_page.html')
 
@@ -76,8 +89,7 @@ class Cargar_Sub(View):
         try:
             categoria_principal = request.POST.get('categoria')
             sub_categoria = request.POST.get('sub_categoria')
-
-            print(categoria_principal, sub_categoria)
+            foto = request.FILES.get('foto')
 
             if not categoria_principal or not sub_categoria:
                 return JsonResponse({'error': 'Los campos no pueden estar vacíos'}, status=400)
@@ -90,16 +102,17 @@ class Cargar_Sub(View):
             SubCategoria.objects.create(
                 categoria_principal=categoria,
                 sub_categoria=sub_categoria,
+                foto=foto,
             )
 
             return JsonResponse({'success': 'Sub-categoría creada con éxito'})
 
-        except Exception as e:
+        except Exception as e:  # noqa: F841
             return JsonResponse({'error': 'Error al crear la subcategoría'}, status=400)
 
-def obtener_subcategorias(request, categoria_nombre):
-    subcategorias = SubCategoria.objects.filter(categoria_principal=categoria_nombre)
-    data = [{'id': sc.id, 'nombre': sc.sub_categoria} for sc in subcategorias]
+def obtener_subcategorias(request, categoria_id):
+    subcategorias = SubCategoria.objects.filter(categoria_principal_id=categoria_id)
+    data = [{'id': sc.id, 'nombre': sc.sub_categoria} for sc in subcategorias] # type: ignore
     return JsonResponse(data, safe=False)
 
 class CargarCategoria(View):
@@ -109,12 +122,17 @@ class CargarCategoria(View):
     def post(self, request):
         try:
             nombre = request.POST.get('categoria')
+            foto = request.FILES.get('foto')
+
+            if not nombre:
+                return JsonResponse({'error': 'El campo no puede estar vacío'}, status=400)
+
             user = request.user
             print(nombre)
             if CategoriaPrincipal.objects.filter(nombre=nombre).exists():
                 return JsonResponse({'error': 'La categoría ya existe'}, status=400)
 
-            CategoriaPrincipal.objects.create(nombre=nombre, user=user)
+            CategoriaPrincipal.objects.create(nombre=nombre, foto=foto, user=user)
             return JsonResponse({'success': 'Categoría creada con éxito'})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)

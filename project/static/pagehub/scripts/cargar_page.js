@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     categoriaSelect.addEventListener("change", function () {
         const categoriaId = this.value;
-
         // Vaciar subcategorías anteriores
         subCategoriaSelect.innerHTML = '<option class="option">Sub Categoría</option>';
 

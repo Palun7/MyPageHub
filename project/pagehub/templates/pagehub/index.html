@@ -23,7 +23,11 @@
             <div class="categorias-container">
                 {% if categorias %}
                     {% for categoria in categorias %}
-                        <a href="{% url 'pagehub:categoria' categoria.id %}" class="categoria">{{ categoria.nombre }}</a>
+                        {% if categoria.foto %}
+                            <a href="{% url 'pagehub:categoria' categoria.id %}" class="categoria">{{ categoria.nombre }}<img src="{{ MEDIA_URL }}{{ categoria.foto }}" alt="Foto de {{ categoria.nombre}}" class="foto-categoria"></a>
+                        {% else %}
+                            <a href="{% url 'pagehub:categoria' categoria.id %}" class="categoria">{{ categoria.nombre }}</a>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                     <h3 class="sin-categorias">Todavía no hay categorías cargadas</h3>

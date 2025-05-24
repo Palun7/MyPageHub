@@ -3,6 +3,7 @@ from usuarios.models import User
 
 class CategoriaPrincipal(models.Model):
     nombre = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    foto = models.ImageField(upload_to='img', null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -33,6 +34,7 @@ class SubCategoria(models.Model):
 
     categoria_principal = models.ForeignKey(CategoriaPrincipal, on_delete=models.CASCADE, null=True, blank=True, default=None)
     sub_categoria = models.CharField(max_length=50)
+    foto = models.ImageField(upload_to='img', null=True, blank=True)
 
     def __str__(self):
         return self.sub_categoria
